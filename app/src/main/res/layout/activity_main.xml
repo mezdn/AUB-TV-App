@@ -8,11 +8,6 @@
     tools:context=".MainActivity"
     tools:deviceIds="tv"
     tools:ignore="MergeRootFrame">
-    <com.example.sliderviewlibrary.SliderView
-    android:id="@+id/sliderView"
-    android:layout_centerHorizontal="true"
-    android:layout_width="300dp"
-    android:layout_height="200dp"/>
 
 </fragment>
 

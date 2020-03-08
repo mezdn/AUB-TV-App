@@ -26,5 +26,4 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.3.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.github.nikhil-sachdeva:SliderViewLibrary:1.0' // to implement the slider on the home page - hamza
 }

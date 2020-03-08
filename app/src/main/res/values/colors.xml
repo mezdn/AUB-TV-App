@@ -4,5 +4,4 @@
     <color name="indigo">#5A7684</color>
     <color name="indigo_dark">#1B2327</color>
     <color name="default_background">#3d3d3d</color>
-    <color name="colorAccent">@android:color/white</color>
 </resources>
