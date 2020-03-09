@@ -41,8 +41,10 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import com.squareup.picasso.Picasso;
 
-import com.example.sliderviewlibrary.SliderAdapter;
-import java.util.ArrayList;
+import android.widget.ViewFlipper; //implementing main slider
+
+
+
 
 public class MainFragment extends BrowseFragment {
     private static final String TAG = "MainFragment";
@@ -50,7 +52,7 @@ public class MainFragment extends BrowseFragment {
     private ArrayObjectAdapter mRowsAdapter;
     private static final int GRID_ITEM_WIDTH = 300;
     private static final int GRID_ITEM_HEIGHT = 200;
-    public SliderAdapter sliderView;
+    
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -62,14 +64,9 @@ public class MainFragment extends BrowseFragment {
         setupEvenListeners();
 
         loadRows();
-        
-        ArrayList<Integer> images = new ArrayList<>();
-        images.add(R.drawable.logo);
-        images.add(R.drawable.logo);
-        images.add(R.drawable.logo);
-
-        sliderView.setImages(images);
     }
+
+
 
     private void setupUIElements() {
         setBadgeDrawable(getActivity().getResources().getDrawable(R.drawable.logo_white));
