@@ -14,6 +14,7 @@
 
 package com.example.myapplication;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -41,8 +42,8 @@ import android.widget.Toast;
 import android.widget.VideoView;
 import com.squareup.picasso.Picasso;
 
+import android.widget.ImageView; // implementing main slider
 import android.widget.ViewFlipper; //implementing main slider
-
 
 
 
@@ -52,7 +53,9 @@ public class MainFragment extends BrowseFragment {
     private ArrayObjectAdapter mRowsAdapter;
     private static final int GRID_ITEM_WIDTH = 300;
     private static final int GRID_ITEM_HEIGHT = 200;
-    
+
+    ViewFlipper v_flipper;
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -62,6 +65,8 @@ public class MainFragment extends BrowseFragment {
         setupUIElements();
 
         setupEvenListeners();
+
+        loadMainFlipper();
 
         loadRows();
     }
@@ -99,9 +104,35 @@ public class MainFragment extends BrowseFragment {
         }
     }
 
+    public void loadMainFlipper() {
+
+        int images[] = {R.drawable.logo,R.drawable.logo,R.drawable.logo,R.drawable.app_icon_your_company};
+        v_flipper = getView().findViewById(R.id.v_flipper);
+
+        for(int image: images){
+            flipperImages(image);
+        }
+    }
+    @TargetApi(23)
+    public void flipperImages(int image){
+
+
+        ImageView imageView = new ImageView(getContext());
+        imageView.setBackgroundResource(image);
+
+        v_flipper.addView(imageView);
+        v_flipper.setFlipInterval(4000);
+        v_flipper.setAutoStart(true);
+
+        // animation
+        v_flipper.setInAnimation(getContext(),android.R.anim.slide_in_left);
+        v_flipper.setOutAnimation(getContext(),android.R.anim.slide_out_right);
+    }
+
     // todo: here we can add rows
     private void loadRows() {
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
+
 
         // region first row
         HeaderItem cardPresenterHeader_1 = new HeaderItem(1, "CAMPUS");
