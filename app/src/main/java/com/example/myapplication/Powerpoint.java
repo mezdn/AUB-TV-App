@@ -34,7 +34,7 @@ public class Powerpoint implements DisplayObject{
     public String getPowerPointUrl() {
         return this.mPowerPointUrl;
     }
-    public String getCardUrl() { return this.CardUrl; }
+    public String getCardUrl() { return this.mPowerPointUrl; }
     public int getTrialImage() { return R.drawable.ppt_image; }
     public void setId(Long mId) {
         this.mId = mId;

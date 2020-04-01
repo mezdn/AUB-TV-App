@@ -118,6 +118,12 @@ public class MainFragment extends BrowseFragment {
     private void loadRows() {
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
 
+        HeaderItem slideshowHeader = new HeaderItem(-1, "");
+        SlideShowPresenter slideShowPresenter = new SlideShowPresenter();
+        ArrayObjectAdapter slideshowBody = new ArrayObjectAdapter(slideShowPresenter);
+        slideshowBody.add(new Powerpoint("SlideShow", "Description", "https://p.bigstockphoto.com/GeFvQkBbSLaMdpKXF1Zv_bigstock-Aerial-View-Of-Blue-Lakes-And--227291596.jpg"));
+        mRowsAdapter.add(new ListRow(slideshowHeader, slideshowBody));
+
         // region calendar
         HeaderItem cardPresenterHeader_0 = new HeaderItem(0, "CALENDAR");
         CardPresenter cardPresenter_0 = new CardPresenter();
