@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import androidx.viewpager2.widget.ViewPager2;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,22 +11,24 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import timber.log.Timber;
 
-// for a one image display, the image can be treated similarly to a powerpoint.
 public class PowerPointActivity extends Activity {
+    Powerpoint mSelectedPowerpoint;
     private ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Timber.i("onCreate in Power Point Activity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_pager_main);
+        Intent intent = getIntent();
+        mSelectedPowerpoint = (Powerpoint) intent.getSerializableExtra("powerpoint");
         TextView mTextTitle = findViewById(R.id.fragment_pager_main_title);
-        mTextTitle.setText(R.string.filler_title);
+        mTextTitle.setText(mSelectedPowerpoint.getTitle());
         TextView mTextDescription = findViewById(R.id.fragment_pager_main_about);
-        mTextDescription.setText(R.string.filler_text_short);
+        mTextDescription.setText(mSelectedPowerpoint.getDescription());
         LinearLayout mLayout = findViewById(R.id.fragment_pager_main_child);
         mLayout.setBackgroundResource(R.color.Transparent_black);
         viewPager2 = findViewById(R.id.fragment_pager_viewPager2);
@@ -33,33 +36,14 @@ public class PowerPointActivity extends Activity {
 
     }
     /**
-     * set up adapter same like you do for RecyclerView or other components
+     * this method sets up the adapter
      */
     private void setUpPagerAdapter() {
-        Timber.i("setUpPagerAdapter in Power Point Activity");
-        MyPowerpointAdapter pagerAdapter = new MyPowerpointAdapter(fetchDummyData());
+        List<String> imagesUrlsList = Arrays.asList(mSelectedPowerpoint.getImagesURLs());
+        MyPowerpointAdapter pagerAdapter = new MyPowerpointAdapter(imagesUrlsList);
         viewPager2.setAdapter(pagerAdapter);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
     }
-    /**
-     * @return this method will return dummy data in form of list
-     */
-    private List<Powerpoint> fetchDummyData() {
-        Timber.i("fetchDummyData in Power Point Activity");
-        List<Powerpoint> powerpointList = new ArrayList<>();
-        String[] dummyArrDescriptions = getResources().getStringArray(R.array.array_str_descriptions_for_powerPoints);
-        String[] dummyArrTitles = getResources().getStringArray(R.array.array_str_titles_for_powerPoints);
-        for (int index = 0; index < dummyArrTitles.length; ++index) {
-//            if (index == 0) {
-//                Powerpoint powerpoint = new Powerpoint(dummyArrTitles[index], dummyArrDescriptions[index], R.drawable.powersample1);
-//            } else {
-            Powerpoint powerpoint = new Powerpoint(R.drawable.ppt_image);
-//            }
-            powerpointList.add(powerpoint);
-        }
-        return powerpointList;
-    }
-
     /**
      * this method handles slideshow navigation
      */
@@ -67,24 +51,19 @@ public class PowerPointActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_LEFT: {
-                Timber.i("10 changed it");
                 viewPager2.setCurrentItem(viewPager2.getCurrentItem() - 1);
                 break;
             }
             case KeyEvent.KEYCODE_DPAD_RIGHT: {
-                Timber.i("11 changed it");
+
                 viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
                 break;
             }
-//            Cancelling event due to no window focus: KeyEvent. It seems like there is something wrong here and its late so I will sleep :}
             case KeyEvent.KEYCODE_BACK: {
-                Timber.i("12 changed it");
                 super.onBackPressed();
                 break;
             }
-            // todo: Set up animation for text : fading in, fading out
             case KeyEvent.KEYCODE_ENTER: {
-                Timber.i("13 changed it");
                 if (findViewById(R.id.fragment_pager_main_child).isShown()) {
                     findViewById(R.id.fragment_pager_main_child).setVisibility(View.INVISIBLE);
                     LinearLayout mLayout = findViewById(R.id.fragment_pager_main_child);
