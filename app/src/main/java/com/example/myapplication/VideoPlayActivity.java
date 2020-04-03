@@ -16,9 +16,12 @@ public class VideoPlayActivity extends Activity {
         Intent intent = getIntent();
         video = (Video) intent.getSerializableExtra("video");
 
-        Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + video.getYouTubeID()));
-        youtubeIntent.putExtra("force_fullscreen", true);
-        youtubeIntent.putExtra("finish_on_ended", true);
+        Intent youtubeIntent = new Intent(this, YouTubePlayerActivity.class);
+        youtubeIntent.putExtra("video", video);
+
+//        Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + video.getYouTubeID()));
+//        youtubeIntent.putExtra("force_fullscreen", true);
+//        youtubeIntent.putExtra("finish_on_ended", true);
         startActivity(youtubeIntent);
     }
 }

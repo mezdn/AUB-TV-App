@@ -24,7 +24,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".YouTubePlayerActivity"></activity>
+        <activity android:name=".CalendarActivity" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".PowerPointActivity" />
         <activity android:name=".VideoPlayActivity">
