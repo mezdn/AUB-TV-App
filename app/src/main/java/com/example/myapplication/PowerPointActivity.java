@@ -1,9 +1,12 @@
 package com.example.myapplication;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -39,10 +42,16 @@ public class PowerPointActivity extends Activity {
      * this method sets up the adapter
      */
     private void setUpPagerAdapter() {
+        SpinnerFragment mSpinnerFragment = new SpinnerFragment();
+        getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mSpinnerFragment).commit();
+
         List<String> imagesUrlsList = Arrays.asList(mSelectedPowerpoint.getImagesURLs());
         MyPowerpointAdapter pagerAdapter = new MyPowerpointAdapter(imagesUrlsList);
         viewPager2.setAdapter(pagerAdapter);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+
+        getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
+
     }
     /**
      * this method handles slideshow navigation

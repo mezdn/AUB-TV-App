@@ -6,4 +6,8 @@ public interface DisplayObject {
     public void setCardUrl(String cardUrl);
 
     public String getCardUrl();
+
+    public String getTitle();
+
+    public String getDescription();
 }

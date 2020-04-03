@@ -10,24 +10,19 @@ public class Powerpoint implements Serializable, DisplayObject{
     private long mId;
     private String mTitle;
     private String mDescription;
-    String mCategory;
     private String mCardUrl;
-    private String mPowerPointUrl;
     private int mNumberOfPages;
     private String [] mImagesURLs;
     private String [] mDescriptionURLs;
 
-    public Powerpoint(){};
-    public Powerpoint(long mId, String mTitle, String mDescription, String mCategory, String mCardUrl, String mPowerPointUrl, int mNumberOfPages, String [] mImagesURLs, String [] mDescriptionsURLs) {
-        this.mId = mId;
+    public Powerpoint(){}
+    public Powerpoint(String mTitle, String mDescription, String [] mImagesURLs) {
         this.mTitle = mTitle;
         this.mDescription = mDescription;
-        this.mCategory = mCategory;
-        this.mCardUrl = mCardUrl;
-        this.mPowerPointUrl = mPowerPointUrl;
-        this.mNumberOfPages = mNumberOfPages;
+        this.mCardUrl = mImagesURLs[0];
+        this.mNumberOfPages = mImagesURLs.length;
         this.mImagesURLs = mImagesURLs;
-        this.mDescriptionURLs = mDescriptionsURLs;
+//        this.mDescriptionURLs = mDescriptionsURLs;
     }
     public static String getTAG() {
         return TAG;
@@ -41,11 +36,7 @@ public class Powerpoint implements Serializable, DisplayObject{
     public String getDescription() {
         return this.mDescription;
     }
-    public String getCategory() {return  this.mCategory;}
     public String getCardUrl() {return this.mCardUrl;}
-    public String getPowerPointUrl() {
-        return this.mPowerPointUrl;
-    }
     public int getNumberOfPages() {
         return mNumberOfPages;
     }
@@ -64,14 +55,8 @@ public class Powerpoint implements Serializable, DisplayObject{
     public void setDescription(String mDescription) {
         this.mDescription = mDescription;
     }
-    public void setCategory(String mCategory) {
-        this.mCategory = mCategory;
-    }
     public void setCardUrl(String mCardUrl) {
         this.mCardUrl = mCardUrl;
-    }
-    public void setPowerPointUrl(String mUrl) {
-        this.mPowerPointUrl = mUrl;
     }
     public void setNumberOfPages(int mNumberOfPages) {
         this.mNumberOfPages = mNumberOfPages;
@@ -91,7 +76,6 @@ public class Powerpoint implements Serializable, DisplayObject{
                 ", title='" + mTitle + '\'' +
                 ", description='" + mDescription +
                 ", Category='" + mDescription +
-                ", powerPointUrl='" + mPowerPointUrl +
                 ", cardUrl='" + CardUrl + '\'' +
                 '}';
     }

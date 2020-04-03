@@ -91,6 +91,7 @@ public class MainFragment extends BrowseFragment {
             if (item instanceof Powerpoint) {
                 Powerpoint powerpoint = (Powerpoint) item;
                 Intent intent = new Intent(getActivity(), PowerPointActivity.class);
+                intent.putExtra("powerpoint", powerpoint);
                 getActivity().startActivity(intent);
             }
             else if (item instanceof Calendar) {
@@ -144,14 +145,7 @@ public class MainFragment extends BrowseFragment {
                         Log.i("JSON:", item.toString());
                         String itemType = item.getString("type");
                         Log.i("Type:", itemType);
-                        DisplayObject itemParsed = null;
-                        if (itemType.toUpperCase().equals("VIDEO")) {
-                            String videoTitle = item.getString("title");
-                            String videoDescription = item.getString("description");
-                            String videoYouTubeID = item.getString("youtubeId");
-                            String cardUrl = item.getString("cardUrl");
-                            itemParsed = new Video(videoTitle, videoDescription, videoYouTubeID, cardUrl);
-                        }
+                        DisplayObject itemParsed = setItemSpecifications(item);
                         if (itemParsed != null) {
                             cardRowAdapter.add(itemParsed);
                         }
@@ -244,5 +238,29 @@ public class MainFragment extends BrowseFragment {
         });
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    private DisplayObject setItemSpecifications(JSONObject item) {
+        try {
+            String itemType = item.getString("type");
+            Log.i("Tyoe", itemType);
+            if (itemType.toUpperCase().equals("VIDEO")) {
+                String videoTitle = item.getString("title");
+                String videoDescription = item.getString("description");
+                String videoYouTubeID = item.getString("youtubeId");
+                String cardUrl = item.getString("cardUrl");
+                return new Video(videoTitle, "Video | " + videoDescription, videoYouTubeID, cardUrl);
+            }
+            else if (itemType.toUpperCase().equals("SLIDESHOW")) {
+                String showTitle = item.getString("title");
+                String showDescription = item.getString("description");
+                String[] showUrls = item.getString("imageUrls").split(";");
+
+                return new Powerpoint(showTitle, "Slideshow | " + showDescription, showUrls);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

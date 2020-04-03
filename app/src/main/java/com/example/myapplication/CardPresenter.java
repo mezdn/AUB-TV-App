@@ -121,44 +121,15 @@ public class CardPresenter extends Presenter {
         if (item instanceof Video) {
             Video video = (Video) item;
             ((ViewHolder) viewHolder).setVideo(video);
-
-            Log.d(TAG, "onBindViewHolder");
-            ((ViewHolder) viewHolder).mCardView.setTitleText(video.getTitle());
-            ((ViewHolder) viewHolder).mCardView.setContentText(video.getDescription());
-            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-
             // Setting the card presenter of the video
-            String CardUrl = video.getCardUrl();
-            if (CardUrl != null && !CardUrl.equals("")) {
-                Glide.with(mContext)
-                        .load(CardUrl)
-                        .centerCrop()
-                        .error(R.drawable.default_background)
-                        .into(new SimpleTarget<GlideDrawable>(CARD_WIDTH, CARD_HEIGHT) {
-                            @Override
-                            public void onResourceReady(GlideDrawable resource,
-                                                        GlideAnimation<? super GlideDrawable>
-                                                                glideAnimation) {
-                                ((ViewHolder) viewHolder).mCardView.setMainImage(resource);
-                            }
-                        });
-            }
-            else {
-                // When no card url is provided: set the default card
-                ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
-            }
+            setCardSpecifications(viewHolder, video);
         } else if (item instanceof Powerpoint) {
             Powerpoint powerpoint = (Powerpoint) item;
             ((ViewHolder) viewHolder).setPowerPoint(powerpoint);
-            Log.d(TAG, "onBindViewHolder");
-            ((ViewHolder) viewHolder).mCardView.setTitleText(powerpoint.getTitle());
-            ((ViewHolder) viewHolder).mCardView.setContentText(powerpoint.getDescription());
-            ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+            setCardSpecifications(viewHolder, powerpoint);
         } else if (item instanceof Calendar) {
             Calendar calendar = (Calendar) item;
             ((ViewHolder) viewHolder).setCalendar(calendar);
-            Log.d(TAG, "onBindViewHolder");
             ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
             ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getCalendarCardImage());
         }
@@ -167,6 +138,32 @@ public class CardPresenter extends Presenter {
     @Override
     public void onUnbindViewHolder(Presenter.ViewHolder viewHolder) {
         Log.d(TAG, "onUnbindViewHolder");
+    }
+
+    private void setCardSpecifications(Presenter.ViewHolder viewHolder, DisplayObject item) {
+        ((ViewHolder) viewHolder).mCardView.setTitleText(item.getTitle());
+        ((ViewHolder) viewHolder).mCardView.setContentText(item.getDescription());
+        ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+        // Setting the card presenter of the video
+        String CardUrl = item.getCardUrl();
+        if (CardUrl != null && !CardUrl.equals("")) {
+            Glide.with(mContext)
+                    .load(CardUrl)
+                    .centerCrop()
+                    .error(R.drawable.default_background)
+                    .into(new SimpleTarget<GlideDrawable>(CARD_WIDTH, CARD_HEIGHT) {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource,
+                                                    GlideAnimation<? super GlideDrawable>
+                                                            glideAnimation) {
+                            ((ViewHolder) viewHolder).mCardView.setMainImage(resource);
+                        }
+                    });
+        }
+        else {
+            // When no card url is provided: set the default card
+            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+        }
     }
 
 }
