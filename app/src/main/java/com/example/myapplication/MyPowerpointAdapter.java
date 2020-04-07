@@ -41,13 +41,12 @@ public class MyPowerpointAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Timber.i("On Bind Holder of My Pager Adapter");
         PagesViewHolder mViewHolder = (PagesViewHolder) holder;
         String imageUrl = mPowerPointList.get(position);
         // set image
         Glide.with(holder.itemView.getContext())
                 .load(imageUrl)
-                .centerCrop()
+                .override(mViewHolder.mViewImageView.getMaxWidth(),mViewHolder.mViewImageView.getMaxHeight())
                 .error(R.drawable.default_background)
                 .into(mViewHolder.mViewImageView);
     }
