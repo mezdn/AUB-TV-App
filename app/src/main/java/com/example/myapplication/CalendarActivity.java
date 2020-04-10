@@ -32,8 +32,14 @@ public class CalendarActivity extends Activity {
 
 
     private void getDateEvent(int year, int month, int dayOfMonth) {
-        if (year == 2020 && month == 3 && dayOfMonth == 23) {
-            mEvents.setText("No Events for 23-3-2020. Stay Home");
+        if (year == 2020 && month == 4 && dayOfMonth == 7) {
+            mEvents.setText("WSB online event");
+        }
+        else if (year == 2020 && month == 4 && dayOfMonth == 8) {
+            mEvents.setText("Lecture by Dr. Fadlo Khuri.");
+        }
+        else {
+            mEvents.setText("No Events for today. Stay Home");
         }
     }
 }

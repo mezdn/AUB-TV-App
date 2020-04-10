@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -43,6 +44,7 @@ public class MyPowerpointAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         PagesViewHolder mViewHolder = (PagesViewHolder) holder;
         String imageUrl = mPowerPointList.get(position);
+        Log.i("imageUrl", imageUrl);
         // set image
         Glide.with(holder.itemView.getContext())
                 .load(imageUrl)
