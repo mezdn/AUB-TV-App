@@ -2,8 +2,16 @@ package com.example.myapplication;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CalendarView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 public class CalendarActivity extends Activity {
 
@@ -32,14 +40,30 @@ public class CalendarActivity extends Activity {
 
 
     private void getDateEvent(int year, int month, int dayOfMonth) {
-        if (year == 2020 && month == 4 && dayOfMonth == 7) {
-            mEvents.setText("WSB online event");
-        }
-        else if (year == 2020 && month == 4 && dayOfMonth == 8) {
-            mEvents.setText("Lecture by Dr. Fadlo Khuri.");
-        }
-        else {
-            mEvents.setText("No Events for today. Stay Home");
-        }
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                getResources().getString(R.string.api) + "/api/Events/" + year + "/" + month + "/" + dayOfMonth,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            mEvents.setText(response);
+
+                        } catch (Exception e) {
+                            Log.i("Error", e.getMessage());
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i("Error", error.getMessage());
+            }
+        });
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 }

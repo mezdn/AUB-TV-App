@@ -24,13 +24,19 @@ namespace Backend.Controllers
         {
             _context = context;
             _env = env;
+            Categories =  _context.Category.Select(c => c.Name).ToList();
         }
 
         // GET: DisplayObjects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
-            Categories = await _context.Category.Select(c => c.Name).ToListAsync();
-            return View(await _context.DisplayObject.ToListAsync());
+            var category = _context.Category.FirstOrDefault(c => c.Id == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return View(await _context.DisplayObject.Where(o => o.Category == category.Name).ToListAsync());
         }
 
         // GET: DisplayObjects/Details/5
@@ -52,7 +58,7 @@ namespace Backend.Controllers
         }
 
         // GET: DisplayObjects/Create
-        public IActionResult CreateVideo()
+        public IActionResult CreateVideo([FromRoute]int? categoryId)
         {
             return View();
         }
@@ -62,14 +68,27 @@ namespace Backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateVideo([Bind("Id,Category,Title,Description,YouTubeID,ImageUrls")] DisplayObject video)
+        public async Task<IActionResult> CreateVideo([FromRoute]int? id, [Bind("Title,Description,YouTubeID,ImageUrls")] DisplayObject video)
         {
             if (ModelState.IsValid)
             {
+                if (id == null)
+                {
+                    return ValidationProblem(detail: "Category Id cannot be null");
+                }
+
+                var category = await _context.Category.FirstOrDefaultAsync(c => c.Id == id);
+
+                if (category == null)
+                {
+                    return NotFound("Category not found");
+                }
+
                 video.Type = Models.Interfaces.Type.Video;
+                video.Category = category.Name;
                 _context.Add(video);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = id });
             }
             return View(video);
         }
@@ -85,18 +104,36 @@ namespace Backend.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSlideShow([Bind("Id,Category,Title,Description,Pictures")] DisplayObject slideShow)
+        public async Task<IActionResult> CreateSlideShow([FromRoute]int? id, [Bind("Title,Description,Pictures")] DisplayObject slideShow)
         {
             if (ModelState.IsValid && slideShow.Pictures != null)
             {
+
+                if (id == null)
+                {
+                    return ValidationProblem(detail: "Category Id cannot be null");
+                }
+
+                var category = await _context.Category.FirstOrDefaultAsync(c => c.Id == id);
+
+                if (category == null)
+                {
+                    return NotFound("Category not found");
+                }
+
                 slideShow.Type = Models.Interfaces.Type.SlideShow;
+                slideShow.Category = category.Name;
                 slideShow.ImageUrls = "";
+
                 // Add unique name to avoid possible name conflicts
                 var ImageFolderPath = Path.Combine(new string[] { _env.WebRootPath, "img" });
                 if (!Directory.Exists(ImageFolderPath))
                 {
                     Directory.CreateDirectory(ImageFolderPath);
                 }
+
+                slideShow.Pictures.Reverse();
+
                 foreach (var pic in slideShow.Pictures)
                 {
                     var uniqueImageName = DateTime.Now.Ticks.ToString() + ".jpg";
@@ -110,7 +147,7 @@ namespace Backend.Controllers
                 }
                 _context.Add(slideShow);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = id });
             }
             return View(slideShow);
         }
@@ -190,9 +227,12 @@ namespace Backend.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var displayObject = await _context.DisplayObject.FindAsync(id);
+
+            var category = await _context.Category.FirstOrDefaultAsync(c => c.Name == displayObject.Category);
+
             _context.DisplayObject.Remove(displayObject);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = category.Id });
         }
 
         private bool DisplayObjectExists(int id)
