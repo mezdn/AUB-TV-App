@@ -13,6 +13,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -42,16 +45,17 @@ public class PowerPointActivity extends Activity {
      * this method sets up the adapter
      */
     private void setUpPagerAdapter() {
-        SpinnerFragment mSpinnerFragment = new SpinnerFragment();
-        getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mSpinnerFragment).commit();
+        for (int index = 0; index < mSelectedPowerpoint.getImagesURLs().length ; index++)
+        {
+            Glide.with(getApplicationContext())
+                    .load(mSelectedPowerpoint.getImagesURLs()[index])
+                    .downloadOnly(viewPager2.getWidth(),viewPager2.getHeight());
+        }
 
         List<String> imagesUrlsList = Arrays.asList(mSelectedPowerpoint.getImagesURLs());
         MyPowerpointAdapter pagerAdapter = new MyPowerpointAdapter(imagesUrlsList);
         viewPager2.setAdapter(pagerAdapter);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-
-        getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
-
     }
     /**
      * this method handles slideshow navigation

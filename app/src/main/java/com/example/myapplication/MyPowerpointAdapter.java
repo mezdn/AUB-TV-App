@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 import timber.log.Timber;
@@ -50,6 +51,7 @@ public class MyPowerpointAdapter extends RecyclerView.Adapter {
                 .load(imageUrl)
                 .override(mViewHolder.mViewImageView.getMaxWidth(),mViewHolder.mViewImageView.getMaxHeight())
                 .error(R.drawable.default_background)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(mViewHolder.mViewImageView);
     }
 

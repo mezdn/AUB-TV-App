@@ -98,6 +98,14 @@ public class MainFragment extends BrowseFragment {
                 Intent intent = new Intent(getActivity(), CalendarActivity.class);
                 startActivity(intent);
             }
+            else if (item instanceof String) {
+                if (((String) item).contains(getString(R.string.donate_to_aub))) {
+                    Intent intent = new Intent(getActivity(), QrCodeActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 
@@ -164,6 +172,14 @@ public class MainFragment extends BrowseFragment {
             Log.i("Error:", e.getMessage());
         }
         setAdapter(mRowsAdapter);
+        // endregion
+
+        // region donate
+        HeaderItem donateHeader = new HeaderItem(0,getString(R.string.donate_to_aub));
+        CardPresenter donateCardPresenter = new CardPresenter();
+        ArrayObjectAdapter donateArrayObjectAdapter = new ArrayObjectAdapter(donateCardPresenter);
+        donateArrayObjectAdapter.add(getString(R.string.donate_to_aub));
+        mRowsAdapter.add(new ListRow(donateHeader , donateArrayObjectAdapter));
         // endregion
     }
 
