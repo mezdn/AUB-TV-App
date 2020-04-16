@@ -1,0 +1,7 @@
+#Turn rewrite engine on
+Options +FollowSymLinks
+RewriteEngine on
+
+
+#map neat URL to internal URL
+RewriteRule ^event/all api/event/get.php [nc,qsa]
