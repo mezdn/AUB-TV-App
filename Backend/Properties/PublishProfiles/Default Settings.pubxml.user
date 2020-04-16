@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAZJ9VCsMi20miucDvZHSPxgAAAAACAAAAAAAQZgAAAAEAACAAAABgZA5cZxzKVPHmwptdR44A0SOzJfu22kohKyX9DvpSSQAAAAAOgAAAAAIAACAAAAAkJyXeHpL3GH02ZFYfKdvenrJBromFDA6LP62xFRlSISAAAAB7i+5ipThJeWgjvEZC+ipmqc3jxLMpSu+x32gB3TBWm0AAAACSBDxh27n3EV9V1nh1VgrLUdlY5g7PcLC8VoZ1vLWAGmssQojv2BqXW4eI1JS6Jz0QG6I9z0aNRdqi2ep3nR5f</EncryptedPassword>
+  </PropertyGroup>
+  <ItemGroup>
+    <EFMigrations Include="Backend.Data.TVContext">
+      <Value>Data Source=SQL6009.site4now.net%3bInitial Catalog=DB_A4C491_aubtv%3bUser Id=DB_A4C491_aubtv_admin%3bPassword=thebestezz12#%3b</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

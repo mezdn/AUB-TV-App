@@ -98,6 +98,14 @@ public class MainFragment extends BrowseFragment {
                 Intent intent = new Intent(getActivity(), CalendarActivity.class);
                 startActivity(intent);
             }
+            else if (item instanceof String) {
+                if (((String) item).contains(getString(R.string.donate_to_aub))) {
+                    Intent intent = new Intent(getActivity(), QrCodeActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 
@@ -111,6 +119,10 @@ public class MainFragment extends BrowseFragment {
             if (item instanceof Video) {
                 // Update the app background with the video card image
                 updateBackground(((Video) item).getCardUrl());
+            }
+            if (item instanceof Powerpoint) {
+                // Update the app background with the video card image
+                updateBackground(((Powerpoint) item).getCardUrl());
             }
         }
     }
@@ -161,6 +173,14 @@ public class MainFragment extends BrowseFragment {
         }
         setAdapter(mRowsAdapter);
         // endregion
+
+        // region donate
+        HeaderItem donateHeader = new HeaderItem(0,getString(R.string.donate_to_aub));
+        CardPresenter donateCardPresenter = new CardPresenter();
+        ArrayObjectAdapter donateArrayObjectAdapter = new ArrayObjectAdapter(donateCardPresenter);
+        donateArrayObjectAdapter.add(getString(R.string.donate_to_aub));
+        mRowsAdapter.add(new ListRow(donateHeader , donateArrayObjectAdapter));
+        // endregion
     }
 
     private void prepareBackgroundManager() {
@@ -203,12 +223,14 @@ public class MainFragment extends BrowseFragment {
         getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mSpinnerFragment).commit();
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.api),
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.api) + "/api/DisplayObjects",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         try {
+                            Log.i("response: ", response);
+
                             metadata = new JSONObject(response);
 
                             prepareBackgroundManager();
@@ -231,7 +253,7 @@ public class MainFragment extends BrowseFragment {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // remove the spinner
+                Log.i("Error", error.getMessage());
                 getFragmentManager().beginTransaction().remove(mSpinnerFragment).commit();
                 Toast.makeText(getActivity(), "Failed to get data", Toast.LENGTH_LONG).show();
             }
@@ -243,20 +265,25 @@ public class MainFragment extends BrowseFragment {
     private DisplayObject setItemSpecifications(JSONObject item) {
         try {
             String itemType = item.getString("type");
-            Log.i("Tyoe", itemType);
+            Log.i("Type", itemType);
             if (itemType.toUpperCase().equals("VIDEO")) {
                 String videoTitle = item.getString("title");
                 String videoDescription = item.getString("description");
                 String videoYouTubeID = item.getString("youtubeId");
-                String cardUrl = item.getString("cardUrl");
+                String cardUrl = item.getString("imageUrls");
                 return new Video(videoTitle, "Video | " + videoDescription, videoYouTubeID, cardUrl);
             }
             else if (itemType.toUpperCase().equals("SLIDESHOW")) {
                 String showTitle = item.getString("title");
                 String showDescription = item.getString("description");
                 String[] showUrls = item.getString("imageUrls").split(";");
+                String[] finalUrls = new String[showUrls.length];
 
-                return new Powerpoint(showTitle, "Slideshow | " + showDescription, showUrls);
+                for (int k = 0; k < showUrls.length; k++) {
+                    finalUrls[k] = getResources().getString(R.string.api) + showUrls[k];
+                    Log.i("Urls:", showUrls[k]);
+                }
+                return new Powerpoint(showTitle, "Slideshow | " + showDescription, finalUrls);
             }
         } catch (JSONException e) {
             e.printStackTrace();

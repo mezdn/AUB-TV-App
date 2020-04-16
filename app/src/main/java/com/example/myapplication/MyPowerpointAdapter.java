@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 import timber.log.Timber;
@@ -43,11 +45,13 @@ public class MyPowerpointAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         PagesViewHolder mViewHolder = (PagesViewHolder) holder;
         String imageUrl = mPowerPointList.get(position);
+        Log.i("imageUrl", imageUrl);
         // set image
         Glide.with(holder.itemView.getContext())
                 .load(imageUrl)
                 .override(mViewHolder.mViewImageView.getMaxWidth(),mViewHolder.mViewImageView.getMaxHeight())
                 .error(R.drawable.default_background)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(mViewHolder.mViewImageView);
     }
 

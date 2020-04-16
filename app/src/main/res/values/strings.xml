@@ -36,5 +36,8 @@
 
     <string name="calendar_title">AUB Calendar</string>
 
-    <string name="api">https://4d2451fd-e58f-43be-afd4-623f5bdb5b33.mock.pstmn.io/metadata</string>
+    <string name="donate_to_aub">Donate to AUB</string>
+
+    <string name="mockserver">https://4d2451fd-e58f-43be-afd4-623f5bdb5b33.mock.pstmn.io/metadata</string>
+    <string name="api">http://aubtv.mezdn.com</string>
 </resources>
