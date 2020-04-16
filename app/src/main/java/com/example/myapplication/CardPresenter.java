@@ -134,7 +134,7 @@ public class CardPresenter extends Presenter {
             ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getCalendarCardImage());
         } else if (item instanceof String) {
             ((ViewHolder) viewHolder).mCardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-            ((ViewHolder) viewHolder).mCardView.setMainImage(((ViewHolder) viewHolder).getDefaultCardImage());
+            ((ViewHolder) viewHolder).mCardView.setMainImage(mContext.getResources().getDrawable(R.drawable.qr_code));
         }
     }
 

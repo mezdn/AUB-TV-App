@@ -2,6 +2,6 @@
 <network-security-config>
     <base-config cleartextTrafficPermitted="true" />
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true"> http://aubtv.mezdn.com</domain>
+        <domain includeSubdomains="true"> http://aubtv.b.api.mezdn.com</domain>
     </domain-config>
 </network-security-config>

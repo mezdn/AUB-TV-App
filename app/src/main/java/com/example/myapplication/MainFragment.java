@@ -3,7 +3,6 @@ package com.example.myapplication;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -19,7 +18,6 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -74,7 +72,8 @@ public class MainFragment extends BrowseFragment {
         setOnItemViewClickedListener(new ItemViewClickedListener());
 
         // Actions taken when an item is selected
-        setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        // todo: uncomment the following line if you want to change the app background on item select
+//        setOnItemViewSelectedListener(new ItemViewSelectedListener());
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -223,7 +222,7 @@ public class MainFragment extends BrowseFragment {
         getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mSpinnerFragment).commit();
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.api) + "/api/DisplayObjects",
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.api) + "/displayObjects/getlist.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -277,13 +276,7 @@ public class MainFragment extends BrowseFragment {
                 String showTitle = item.getString("title");
                 String showDescription = item.getString("description");
                 String[] showUrls = item.getString("imageUrls").split(";");
-                String[] finalUrls = new String[showUrls.length];
-
-                for (int k = 0; k < showUrls.length; k++) {
-                    finalUrls[k] = getResources().getString(R.string.api) + showUrls[k];
-                    Log.i("Urls:", showUrls[k]);
-                }
-                return new Powerpoint(showTitle, "Slideshow | " + showDescription, finalUrls);
+                return new Powerpoint(showTitle, "Slideshow | " + showDescription, showUrls);
             }
         } catch (JSONException e) {
             e.printStackTrace();

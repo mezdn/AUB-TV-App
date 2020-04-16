@@ -45,7 +45,7 @@ public class CalendarActivity extends Activity {
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                getResources().getString(R.string.api) + "/api/Events/" + year + "/" + month + "/" + dayOfMonth,
+                getResources().getString(R.string.api) + "/event/get.php?year=" + year + "&month=" + month + "&day=" + dayOfMonth,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
