@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<sitemanifest>
-  <IisApp path="D:\Me\00. Classes\00. Programming\06. TV App Development\MyApplication\Backend\obj\Release\netcoreapp3.1\PubTmp\Out\" />
-  <dbfullsql path="D:\Me\00. Classes\00. Programming\06. TV App Development\MyApplication\Backend\obj\Release\netcoreapp3.1\PubTmp\EFSQLScripts\Backend.Data.TVContext.sql" />
-</sitemanifest>
