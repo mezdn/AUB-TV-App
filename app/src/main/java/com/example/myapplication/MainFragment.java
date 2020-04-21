@@ -72,8 +72,7 @@ public class MainFragment extends BrowseFragment {
         setOnItemViewClickedListener(new ItemViewClickedListener());
 
         // Actions taken when an item is selected
-        // todo: uncomment the following line if you want to change the app background on item select
-//        setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        setOnItemViewSelectedListener(new ItemViewSelectedListener());
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -222,7 +221,7 @@ public class MainFragment extends BrowseFragment {
         getFragmentManager().beginTransaction().add(R.id.main_browse_fragment, mSpinnerFragment).commit();
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.api) + "/displayObjects/getlist.php",
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, getResources().getString(R.string.api) + "/displayObject/getlist.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
