@@ -2,10 +2,8 @@ package com.example.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 public class YouTubePlayerActivity extends Activity {
     private static Video video;
@@ -13,21 +11,15 @@ public class YouTubePlayerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_youtube_player);
-        Log.i("YoutubePlayer", "YoutubePlayer created");
+        setContentView(R.layout.activity_video_play);
 
         Intent intent = getIntent();
         video = (Video) intent.getSerializableExtra("video");
 
-        YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_player_view);
+        Intent youtubeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + video.getYouTubeID()));
+        youtubeIntent.putExtra("force_fullscreen", true);
+        youtubeIntent.putExtra("finish_on_ended", true);
 
-        if (youTubePlayerView != null) {
-            youTubePlayerView.getYouTubePlayerWhenReady(youTubePlayer -> {
-                String videoId = video.getYouTubeID();
-                Log.i("Youtube ID", videoId);
-                youTubePlayer.cueVideo(videoId, 0);
-                youTubePlayer.play();
-            });
-        }
+        startActivity(youtubeIntent);
     }
 }
