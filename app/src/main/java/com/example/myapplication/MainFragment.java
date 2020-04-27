@@ -269,13 +269,15 @@ public class MainFragment extends BrowseFragment {
                 String videoDescription = item.getString("description");
                 String videoYouTubeID = item.getString("youtubeId");
                 String cardUrl = item.getString("imageUrls");
-                return new Video(videoTitle, "Video | " + videoDescription, videoYouTubeID, cardUrl);
+                String description = (videoDescription.equals("null"))? "" : videoDescription;
+                return new Video(videoTitle, "Video | " + description, videoYouTubeID, cardUrl);
             }
             else if (itemType.toUpperCase().equals("SLIDESHOW")) {
                 String showTitle = item.getString("title");
                 String showDescription = item.getString("description");
                 String[] showUrls = item.getString("imageUrls").split(";");
-                return new Powerpoint(showTitle, "Slideshow | " + showDescription, showUrls);
+                String description = (showDescription.equals("null"))? "" : showDescription;
+                return new Powerpoint(showTitle, "Slideshow | " + description, showUrls);
             }
         } catch (JSONException e) {
             e.printStackTrace();

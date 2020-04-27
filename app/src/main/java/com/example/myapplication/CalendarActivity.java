@@ -12,6 +12,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class CalendarActivity extends Activity {
 
@@ -43,17 +48,28 @@ public class CalendarActivity extends Activity {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
+        String monthString = (month >= 10)? String.valueOf(month): "0" + String.valueOf(month);
+        String dayString = (dayOfMonth >= 10)? String.valueOf(dayOfMonth): "0" + String.valueOf(dayOfMonth);
+
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                getResources().getString(R.string.api) + "/event/get.php?year=" + year + "&month=" + month + "&day=" + dayOfMonth,
+                getResources().getString(R.string.api) + "/event/get.php?year=" + year + "&month=" + monthString + "&day=" + dayString,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            mEvents.setText(response);
+                            JSONObject jsonResponse = new JSONObject(response);
+                            JSONArray data = jsonResponse.getJSONArray("data");
+                            JSONObject event = data.optJSONObject(0);
+                            String[] events = event.getString("title").split(";");
+                            String text = "";
+                            for (int i = 0; i < events.length; i++) {
+                                text += events[i];
+                            }
+                            mEvents.setText(text);
 
                         } catch (Exception e) {
-                            Log.i("Error", e.getMessage());
+                            mEvents.setText("No Event in " + dayOfMonth + "/" + month + "/" + year);
                         }
 
                     }
