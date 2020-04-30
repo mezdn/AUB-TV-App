@@ -61,12 +61,13 @@ public class CalendarActivity extends Activity {
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONArray data = jsonResponse.getJSONArray("data");
                             JSONObject event = data.optJSONObject(0);
-                            String[] events = event.getString("title").split(";");
-                            String text = "";
-                            for (int i = 0; i < events.length; i++) {
-                                text += events[i];
+                            String[] events = event.getString("title").split("///"); // several events are separated by ///
+
+                            StringBuilder text = new StringBuilder();
+                            for (String s : events) {
+                                text.append(s).append("\n");
                             }
-                            mEvents.setText(text);
+                            mEvents.setText(text.toString());
 
                         } catch (Exception e) {
                             mEvents.setText("No Event in " + dayOfMonth + "/" + month + "/" + year);
