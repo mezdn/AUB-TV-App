@@ -61,7 +61,7 @@ public class CalendarActivity extends Activity {
                             JSONObject jsonResponse = new JSONObject(response);
                             JSONArray data = jsonResponse.getJSONArray("data");
                             JSONObject event = data.optJSONObject(0);
-                            String[] events = event.getString("title").split("///"); // several events are separated by ///
+                            String[] events = event.getString("details").split("///"); // several events are separated by ///
 
                             StringBuilder text = new StringBuilder();
                             for (String s : events) {
